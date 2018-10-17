@@ -17,3 +17,5 @@ class Product(Resource):
             if(productid==product["productid"]):
                 return product,200
                 # return "Product {} doesn't exist",404
+
+    

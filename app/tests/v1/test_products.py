@@ -19,15 +19,22 @@ class ProductsTestCase(unittest.TestCase):
         response=self.client.get('api/v1/products',content_type="application/json")
         self.assertEqual(response.status_code,200)
 
-    # 
-    # def test_create_product(self):
-    #     payload = {'product_name': 'book', 'Product_price': 30}
-    #     response=self.client.post('api/v1/products/2',content_type="application/json",data=json.dumps(payload))
-    #     self.assertEqual(response.status_code, 201)
+    # def test_nonexistent_id(self):
+    #     response = self.client.get('/api/v1/products/1000', content_type="application/json")
+    #     self.assertEqual(response.status_code,404)
 
-    def test_get_one_order(self):
+
+    def test_get_one_product(self):
         response=self.client.get("api/v1/products/1",content_type="application/json")
         self.assertEqual(response.status_code,200)
+
+    def test_required_productvalue_missing(self):
+        payload={'product_name':'book'}
+        response = self.client.post('/api/v1/products',data= json.dumps(payload),content_type="application/json")
+        self.assertEqual(response.status_code,404)
+
+
+
 
 
 
