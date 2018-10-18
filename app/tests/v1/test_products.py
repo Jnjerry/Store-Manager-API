@@ -1,17 +1,14 @@
 import unittest
 import json
 import os
-from app import create_app
-from instance.config import app_config
+from ... import create_app
+
 
 class ProductsTestCase(unittest.TestCase):
-        # method will run before each test case method
         def setUp(self):
             """"define our test variabes and initialize our app"""
-            self.app = create_app(config="testing")
-            self.client=self.app.test_client()
-            self.app_context = self.app.app_context()
-            self.app_context.push()
+            self.client= create_app('testing').test_client()
+
 
         #test to check if admin or store attendant can get product list
         def test_product_list(self):

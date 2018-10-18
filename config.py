@@ -3,6 +3,7 @@
 class Config(object):
     "parent configuration class"
     DEBUG= False
+    CSRF_ENABLED = True
 
 
 class DevelopmentConfig(Config):
