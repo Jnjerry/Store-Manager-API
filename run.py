@@ -1,12 +1,11 @@
 #serves as an entry point to our application
 #it gets a copy of the app package and runs it
 
-import os
+from .app import create_app
 
-from app import create_app
 
-config = os.getenv('APP_SETTINGS')
-app = create_app(config)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+CONFIG_NAME="development"
+app = create_app(CONFIG_NAME)
+# method to run the flask app
+if __name__ == '__main__':
+    app.run()
