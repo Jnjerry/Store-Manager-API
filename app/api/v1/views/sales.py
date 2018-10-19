@@ -1,76 +1,59 @@
-from flask import Flask,Blueprint,jsonify
-from flask_jwt_extended import (JWTManager, jwt_required, create_access_token,get_jwt_identity)
-from flask_restful import Api,Resource,reqparse
-from .models import sales
+from flask import Flask, jsonify, make_response
+from flask_restful import Api, Resource, reqparse
+from .models import Sales
 
-sale = Blueprint('sale', __name__,url_prefix='/api/v1')
+app = Flask(__name__)
+api = Api(app)
 
-@sale.route('/sales',methods=['GET'])
-def get_sales_list():
-    response=jsonify(sales)
-    response.status_code=200
-    return response
+products = {}
 
+parser = reqparse.RequestParser()
+parser.add_argument('name', required=True, help="Name cannot be blank")
+parser.add_argument('quantity', type=int, required=True, help="Only integers allowed")
+parser.add_argument('description', type=int, required=True, help="only integers allowed")
 
-@sale.route('/sales/<int:saleid>',methods=['GET'])
-def get_sale_by_id(saleid):
-        for sale in sales:
-            if(saleid==sale["saleid"]):
-                response=jsonify(sale)
-                response.status_code=200
-                return response
+#all sales list
+class Sale_list(Resource):
+	def get(self):
+		"""gets all sales"""
+		products = Sales.get_all(self)
+		return make_response(jsonify(
+			{
+			"message":"success",
+			"status":"ok",
+			"products":products}),
+		200)
 
-@sale.route('/sales',methods=['POST'])
-def post_sales():
-    parser = reqparse.RequestParser()
-    parser.add_argument("saleid")
-    parser.add_argument("product_name")
-    parser.add_argument("product_price")
+	def post(self):
+		"""posts a sale"""
 
-    for sale in sales:
-            if(saleid == sale["saleid"]):
-                    return "sale with ID number {} already exists".format(saleid), 400
+		args = parser.parse_args()
+		name = args['name']
+		quantity = args['quantity']
+		description = args['description']
 
-    args = parser.parse_args()
+		new_sale = Sales(name, quantity, description)
+		new_sale.save()
 
-    sales = {
-        "product_name": args["product_name"],
-        "product_price": args["product_price"],
-        }
+		return make_response(jsonify(
+			{"message":"success",
+			"status":"created",
+			"product":new_sale.__dict__}
+			), 201)
 
+class Sale(Resource):
+	'''single product API'''
+	def get(self, productid):
+		one_product = Products.get_one(self, productid)
 
-    sales.append(sale)
-    sales =[ {
-        "product_name":"unga",
-        "product_price":300,
-        },
-        {
-            "product_name":"chapo",
-            "product_price":30,
-            }
-]
-    response=jsonify(sale)
-    response.status_code=201
-    return response
+		if one_product == "Product not found":
+			return make_response(jsonify(
+				{"status":"not found",
+				"message":"product unavailbale",
+				}), 404)
 
-
-
-
-    # def post(self, saleid):
-    #     parser = reqparse.RequestParser()
-    #     parser.add_argument("productid")
-    #     parser.add_argument("product_name")
-    #     parser.add_argument("product_price")
-    #
-    #     for sale in sales:
-    #     		if(saleid == sale["saleid"]):
-    #     				return "sale with ID number {} already exists".format(saleid), 400
-    #
-    #     args = parser.parse_args()
-    #
-    #     product = {
-    #         "product_name": args["product_name"],
-    #         "product_price": args["product_price"],
-    #         }
-    #     sales.append(sale)
-    #     return sale, 201
+		return make_response(jsonify(
+			{"status":"ok",
+			"message":"success",
+			"product":one_product}
+			), 200)
