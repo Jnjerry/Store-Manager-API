@@ -1,13 +1,25 @@
-from flask import Flask
+from flask import Flask,Blueprint,jsonify
+from flask_jwt_extended import (JWTManager, jwt_required, create_access_token,get_jwt_identity)
 from flask_restful import Api,Resource,reqparse
 from .models import products
 
+product = Blueprint('product', __name__,url_prefix='/api/v1')
 
 
+@product.route('/products',methods=['GET'])
+def get_product_list():
+    response=jsonify(products)
+    response.status_code=200
+    return response
 
-class Product_list(Resource):
-    def get(self):
-        return products,200
+
+@product.route('/product/<int:productid>',methods=['GET'])
+def get_product_by_id(productid):
+        for product in products:
+            if(productid==product["productid"]):
+                response=jsonify(product)
+                response.status_code=200
+                return response
 
 
 #to get a single product
