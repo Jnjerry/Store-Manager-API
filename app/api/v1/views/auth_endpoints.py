@@ -52,6 +52,23 @@ class UserLogin(Resource):
 			return make_response(jsonify({'message': 'Logged in successfully!', 'token': token}), 201)
 		return make_response('Your account does not exist!, Please Register!'), 401
 
+# class Users (Resource):
+#     """get all registered users"""
+#     def get(self):
+#         args = parser.parse_args()
+#         email = args['email']
+#         username = args['username']
+#
+#         users = User.get_all(self,email)
+#         return make_response(jsonify(
+#         	{
+#         	"message":"success",
+#         	"status":"ok",
+#         	"products":products}),
+#         200)
+
+
+
 
 class UserLogout(Resource):
     def get(self):

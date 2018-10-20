@@ -56,7 +56,7 @@ class Sales:
 		self.sales.update({self.saleid:payload})
 
 	def get_all(self):
-		return Products.products
+		return Sales.sales
 
 	def get_one(self, saleid):
 
