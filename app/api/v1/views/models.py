@@ -34,16 +34,16 @@ class Products:
 
 
 class Sales:
-	products = {}
+	sales = {}
 
-	productid = 1
+	saleid = 1
 
 	def __init__(self, name, quantity, description):
 		self.productid =len(Products.products) + 1
 		self.name = name
 		self.quantity = quantity
 		self.description = description
-		
+
 
 	def save(self):
 		payload = dict(
@@ -53,15 +53,15 @@ class Sales:
 		    quantity=self.quantity
 			)
 
-		self.products.update({self.productid:payload})
+		self.sales.update({self.saleid:payload})
 
 	def get_all(self):
 		return Products.products
 
-	def get_one(self, productid):
+	def get_one(self, saleid):
 
-		for key in Products.products:
-			if key == productid:
-				return Products.products[key]
+		for sale in Sales.sales:
+			if sale == saleid:
+				return Sales.sales[sale]
 		message = "sale not found"
 		return message
