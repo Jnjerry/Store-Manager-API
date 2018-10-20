@@ -9,6 +9,23 @@ class ProductsTestCase(unittest.TestCase):
         def setUp(self):
             """"define our test variabes and initialize our app"""
             self.client= create_app('testing').test_client()
+            self.sales_data = {"name":"books", "quantity":40, "description": "biographies"}
+
+
+        def register_user(self,email="joan@tester.com", password="@254"):
+            user_data = {
+                'email': email,
+                'password': password
+            }
+            return self.client.post('/auth/register_user', data=user_data)
+
+        def login_user(self, email="joan@test.com", password="@254"):
+            user_data = {
+                'email': email,
+                'password': password
+            }
+            return self.client.post('/auth/login_user', data=user_data)
+
 
 
         #test to check if admin or store attendant can get product list
