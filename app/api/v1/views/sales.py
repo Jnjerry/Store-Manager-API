@@ -16,12 +16,13 @@ class Sale_list(Resource):
 	@jwt_required
 	def get(self):
 		"""gets all sales"""
-		products = Sales.get_all(self)
+		sales = Sales.get_all(self)
+
 		return make_response(jsonify(
 			{
 			"message":"success",
 			"status":"ok",
-			"products":products}),
+			"sales":sales}),
 		200)
 	@jwt_required
 	def post(self):

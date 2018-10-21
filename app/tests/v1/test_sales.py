@@ -14,24 +14,25 @@ class SalesTestCase(unittest.TestCase):
         self.sales_data = {"name":"books", "quantity":40, "description": "biographies"}
 
 
-    def register_user(self,email="joan@tester.com", password="@254"):
+    def register_user(self,email="joan@tester.com", username="username",password="@254"):
         user_data = {
             'email': email,
+            'username':username,
             'password': password
         }
-        return self.client.post('/auth/register_user', data=user_data)
+        return self.client.post('api/v1/auth/register', data=user_data)
 
     def login_user(self, email="joan@test.com", password="@254"):
         user_data = {
             'email': email,
             'password': password
         }
-        return self.client.post('/auth/login_user', data=user_data)
+        return self.client.post('api/v1/auth/login', data=user_data)
 
 
     #test to check if admin or store attendant can get sale list
     def test_sale_list(self):
-        """send HTTP GET request to the application on specified path"""
+
         self.register_user()
         result = self.login_user()
         access_token = json.loads(result.data.decode())['token']
@@ -46,7 +47,7 @@ class SalesTestCase(unittest.TestCase):
     def test_get_one_sale(self):
         self.register_user()
         result = self.login_user()
-        access_token = json.loads(result.data.decode())['access_token']
+        access_token = json.loads(result.data.decode())['token']
         retrieve = self.client.post('/api/v1/sales/',headers=dict(Authorization="Bearer " + access_token),
             data=self.sales_data)
         self.assertEqual(retrieve.status_code, 201)
@@ -57,10 +58,11 @@ class SalesTestCase(unittest.TestCase):
         # assert that the bucketlist is actually returned given its ID
         self.assertEqual(result.status_code, 200)
 
-    def test_create_sale(self):
+    def test_post_sale_record(self):
+        """test create a sale record"""
         self.register_user()
         result = self.login_user()
-        access_token = json.loads(result.data.decode())['token']
+        access_token = json.loads(result.data.decode())['access_token']
 
         response = self.client.post('/api/v1/sales',
         	data=self.sales_data,
@@ -70,6 +72,8 @@ class SalesTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(result["message"], "success")
         self.assertEqual(result["status"], "created")
+        # self.assertEqual(result["message"], "success")
+        # self.assertEqual(result["status"], "created")
 
 
     # test for invalid order

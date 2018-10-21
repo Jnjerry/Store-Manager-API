@@ -47,13 +47,13 @@ class Sales:
 
 	def save(self):
 		payload = dict(
-			productid = self.productid,
+			saleid = self.saleid,
 			name = self.name,
 			description = self.description,
 		    quantity=self.quantity
 			)
 
-		self.sales.update({self.saleid:payload})
+		return self.sales.update({self.saleid:payload})
 
 	def get_all(self):
 		return Sales.sales
