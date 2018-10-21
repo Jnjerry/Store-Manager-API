@@ -38,3 +38,13 @@ git clone https://github.com/Jnjerry/Store-Manager-API.git<br>
 virtualenv env<br>
 - install dependencies <br>
 pip install -r requirements.txt<br>
+
+# Running the tests
+The tests have beene written using the python module unittests.The tests can be run by using the following commands<br>
+pytest -v
+
+# Built with
+Flask framework
+
+# Author
+Joan Ngugi
