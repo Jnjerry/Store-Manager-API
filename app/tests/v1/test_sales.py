@@ -58,22 +58,16 @@ class SalesTestCase(unittest.TestCase):
         # assert that the bucketlist is actually returned given its ID
         self.assertEqual(result.status_code, 200)
 
-    def test_post_sale_record(self):
-        """test create a sale record"""
-        self.register_user()
-        result = self.login_user()
-        access_token = json.loads(result.data.decode())['access_token']
-
+    def test_sale_creation(self):
+        """Tests whether our API can create a sale record"""
         response = self.client.post('/api/v1/sales',
-        	data=self.sales_data,
-        	headers=dict(Authorization="Bearer " + access_token))
-        result = json.loads(response.data.decode())
-
+                                 data=json.dumps(self.sales_data),
+                                 content_type="application/json",
+                                 headers={"x-access-token":token})
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(result["message"], "success")
-        self.assertEqual(result["status"], "created")
-        # self.assertEqual(result["message"], "success")
-        # self.assertEqual(result["status"], "created")
+        response_msg = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("Sale", response_msg["Message"])
+
 
 
     # test for invalid order

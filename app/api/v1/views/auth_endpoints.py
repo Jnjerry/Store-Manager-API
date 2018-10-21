@@ -48,8 +48,8 @@ class UserLogin(Resource):
 				"message":"User not found",
 				}), 404)
 		else:
-			access_token = create_access_token(identity=args['email'])
-			return make_response(jsonify({'message': 'Logged in successfully!', 'access_token': access_token}), 201)
+			token = create_access_token(identity=args['email'])
+			return make_response(jsonify({'message': 'Logged in successfully!', 'token': token}), 201)
 		return make_response('Your account does not exist!, Please Register!'), 401
 
 # class Users (Resource):
