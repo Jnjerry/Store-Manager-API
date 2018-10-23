@@ -6,15 +6,6 @@
 
 Store manager api is a flask api that helps storeowners to manage their products and sales with the help of store attendants
 
-# HEROKU-LINKS
-- https://store-manager-app-joan.herokuapp.com
-- https://store-manager-app-joan.herokuapp.com/api/v1/products - Get all product
-- https://store-manager-app-joan.herokuapp.com/api/v1/products/1 - Get product by id
-- https://store-manager-app-joan.herokuapp.com/api/v1/sales/- Get all sales
-- https://store-manager-app-joan.herokuapp.com/api/v1/auth/register - Register
-- https://store-manager-app-joan.herokuapp.com/api/v1/auth/login -Log in
-
-
 # STORE-MANAGER API
 - Admin can add a product
 - Admin/store attendant can get all products
@@ -34,6 +25,17 @@ Store manager api is a flask api that helps storeowners to manage their products
 | GET |/api/v1/products/saleid | retrieve a sale by id
 | POST | /api/v1/products | create a product 
 | POST |  /api/v1/sales | create a sale
+
+# HEROKU-LINKS
+- https://store-manager-app-joan.herokuapp.com
+- https://store-manager-app-joan.herokuapp.com/api/v1/products - Get all product
+- https://store-manager-app-joan.herokuapp.com/api/v1/products/1 - Get product by id
+- https://store-manager-app-joan.herokuapp.com/api/v1/sales/- Get all sales
+- https://store-manager-app-joan.herokuapp.com/api/v1/auth/register - Register
+- https://store-manager-app-joan.herokuapp.com/api/v1/auth/login -Log in
+
+# API-DOCUMENTATION
+- https://documenter.getpostman.com/view/4671274/RWgwRvqZ#b563f4df-16d2-4319-9533-9c776e25d67a
 
 ## Prerequisites
 - pip
