@@ -14,7 +14,7 @@ class UserSignUp(Resource):
 
 	def post(self):
 		"""Register a new user"""
-
+		"""Users input """
 		args = parser.parse_args()
 		email = args['email']
 		username = args['username']

@@ -39,7 +39,7 @@ class Sales:
 	saleid = 1
 
 	def __init__(self, name, quantity, description):
-		self.productid =len(Products.products) + 1
+		self.saleid =len(Sales.sales) + 1
 		self.name = name
 		self.quantity = quantity
 		self.description = description
@@ -53,7 +53,7 @@ class Sales:
 		    quantity=self.quantity
 			)
 
-		return self.sales.update({self.saleid:payload})
+		self.sales.update({self.saleid:payload})
 
 	def get_all(self):
 		return Sales.sales
