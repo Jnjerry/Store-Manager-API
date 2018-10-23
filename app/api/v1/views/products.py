@@ -14,8 +14,10 @@ parser.add_argument('description', type=str, required=True, help="only strings a
 class Product_list(Resource):
 	def get(self):
 		products = Products.get_all(self)
+		if not products:
+			return {"message":"No products yet"},400
 		return make_response(jsonify(
-			{"products":products}),200)
+			{"message":"All products available","products":products,"status":"okay"}),200)
 	@jwt_required
 	def post(self):
 		args = parser.parse_args()
@@ -25,9 +27,16 @@ class Product_list(Resource):
 
 		newproduct = Products(name, quantity, description)
 		newproduct.save()
+		if name=="":
+			return {'Message':'Name cannot be empty'},400
+		if quantity=="":
+			return {'Message':'Quantity cannot be empty'},400
+		if description=="":
+			return {'Message':'Description cannot be empty'},400
 
 		return make_response(jsonify(
-			{"products":newproduct.__dict__}), 201)
+			{"message":"product successfully created","products":newproduct.__dict__}), 201)
+
 class Product(Resource):
 
 	def get(self,productid):
@@ -36,4 +45,4 @@ class Product(Resource):
 			return make_response(jsonify(
 				{"status":"not found"}), 404)
 		return make_response(jsonify(
-		{"product":single_product}), 200)
+		{"product":single_product,"status":"okay"}), 200)

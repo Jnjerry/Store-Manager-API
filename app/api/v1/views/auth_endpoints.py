@@ -20,18 +20,25 @@ class UserSignUp(Resource):
 		username = args['username']
 		password = args['password']
 
+
+		validate_email = User.validate_email(self,email)
 		new_user = User.get_one(self, email)
+
+		if email=="" or password =="":
+			return {'Message':'Password or email empty'},400
+
+		if not validate_email:
+			return {'Message': "Invalid email format"}, 400
+
+
 
 		if new_user == "User not found":
 			new_user = User(email, username, password)
 			new_user.signup()
+			return make_response(jsonify({"message":"User created!","user":new_user.__dict__}), 201)
 
-			return make_response(jsonify(
-				{"message":"User created!",
-				"user":new_user.__dict__}
-				), 201)
 		else:
-			return make_response(jsonify({'message':'Email already exists.'}))
+		 	return make_response(jsonify({'message':'Email already exist,try another one.'}))
 
 class UserLogin(Resource):
 	'''user login class'''
@@ -50,12 +57,12 @@ class UserLogin(Resource):
 		else:
 			token = create_access_token(identity=args['email'])
 			return make_response(jsonify({'message': 'Logged in successfully!', 'token': token}), 201)
-		
+
 
 
 
 class UserLogout(Resource):
-    def get(self):
-        """remove user from session"""
-        session.pop('username', None)
-        return jsonify({"message":"successful logout"})
+	def get(self):
+		"""remove user from session"""
+		session.pop('username', None)
+		return jsonify({"message":"successful logout"})

@@ -1,3 +1,4 @@
+import re
 class User:
 	'''Class represents operations related to products'''
 	all_users = {}
@@ -25,3 +26,8 @@ class User:
 				return User.all_users[key]
 		message = "User not found"
 		return message
+
+	def validate_email(self,email):
+		if re.match("\A(?P<name>[\w\-_]+)@(?P<domain>[\w\-_]+).(?P<toplevel>[\w]+)\Z",email,re.IGNORECASE):
+			return True
+		return False

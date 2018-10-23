@@ -17,9 +17,10 @@ class Sale_list(Resource):
 	def get(self):
 		"""gets all sales"""
 		sales = Sales.get_all(self)
-
+		if not sales:
+			return {"message":"No sales made yet"},400
 		return make_response(jsonify(
-			{"sales":sales}),200)
+			{"message":"All sales made","sales":sales,"status":"okay"}),200)
 	@jwt_required
 	def post(self):
 		"""posts a sale"""
@@ -33,7 +34,7 @@ class Sale_list(Resource):
 		new_sale.save()
 
 		return make_response(jsonify(
-			{"sales":new_sale.__dict__}), 201)
+			{"message":"sale successfully created","sales":new_sale.__dict__}), 201)
 
 class Sale(Resource):
 	'''single product API'''
