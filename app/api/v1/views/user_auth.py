@@ -8,6 +8,7 @@ from ..user_models import User
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="email cannot be blank")
 parser.add_argument('password', required=True, help="password cannot be blank")
+all_users=[]
 
 class UserSignUp(Resource):
 
@@ -30,6 +31,7 @@ class UserSignUp(Resource):
 
 
 
+
 		if new_user == "User not found":
 			new_user = User(email,password)
 			new_user.signup()
@@ -40,22 +42,15 @@ class UserSignUp(Resource):
 
 class UserLogin(Resource):
 	'''user login class'''
+
 	def post(self):
 		args = parser.parse_args()
 		email = args['email']
 		password = args['password']
 
-		user = User.get_one(self, email)
-		
-
-		if user == "User not found":
-			return make_response(jsonify(
-				{
-				"message":"User not found",
-				}), 404)
-		else:
-			token = create_access_token(identity=args['email'])
-			return make_response(jsonify({'message': 'Logged in successfully!', 'token': token}), 201)
+		message=User.login(email,password)
+		token = create_access_token(identity=args['email'])
+		return make_response(jsonify({'message': message, 'token': token}), 201)
 
 
 

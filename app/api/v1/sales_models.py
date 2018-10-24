@@ -30,3 +30,4 @@ class Sales:
 				return Sales.sales[sale]
 		message = "sale not found"
 		return message
+    
