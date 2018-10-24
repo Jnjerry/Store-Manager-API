@@ -7,7 +7,6 @@ from ..user_models import User
 
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="email cannot be blank")
-parser.add_argument('username')
 parser.add_argument('password', required=True, help="password cannot be blank")
 
 class UserSignUp(Resource):
@@ -16,9 +15,8 @@ class UserSignUp(Resource):
 		"""Register a new user"""
 		"""Users input """
 		args = parser.parse_args()
-		email = args['email']
-		username = args['username']
-		password = args['password']
+		email = args['email'].strip()
+		password = args['password'].strip()
 
 
 		validate_email = User.validate_email(self,email)
@@ -33,7 +31,7 @@ class UserSignUp(Resource):
 
 
 		if new_user == "User not found":
-			new_user = User(email, username, password)
+			new_user = User(email, password)
 			new_user.signup()
 			return make_response(jsonify({"message":"User created!","user":new_user.__dict__}), 201)
 

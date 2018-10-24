@@ -21,9 +21,9 @@ class Product_list(Resource):
 	@jwt_required
 	def post(self):
 		args = parser.parse_args()
-		name = args['name']
+		name = args['name'].strip()
 		quantity = args['quantity']
-		description = args['description']
+		description = args['description'].strip()
 
 		newproduct = Products(name, quantity, description)
 		newproduct.save()

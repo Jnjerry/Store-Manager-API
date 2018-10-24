@@ -33,9 +33,9 @@ class Sale_list(Resource):
 		"""posts a sale"""
 
 		args = parser.parse_args()
-		name = args['name']
+		name = args['name'].strip()
 		quantity = args['quantity']
-		description = args['description']
+		description = args['description'].strip()
 
 		new_sale = Sales(name, quantity, description)
 		new_sale.save()
