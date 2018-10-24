@@ -36,7 +36,7 @@ Store manager api is a flask api that helps storeowners to manage their products
 - https://store-manager-app-joan.herokuapp.com/api/v1/auth/login -Log in
 
 # API-DOCUMENTATION
-- 
+- https://documenter.getpostman.com/view/4671274/RWgwRvqZ
 
 ## Prerequisites
 - pip
