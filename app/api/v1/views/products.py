@@ -31,6 +31,8 @@ class Product_list(Resource):
 			return {'Message':'Name cannot be empty'},400
 		if quantity=="":
 			return {'Message':'Quantity cannot be empty'},400
+		if quantity==0:
+			return {'Message':'Quantity cannot be 0'},400
 		if description=="":
 			return {'Message':'Description cannot be empty'},400
 
