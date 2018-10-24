@@ -31,7 +31,7 @@ class UserSignUp(Resource):
 
 
 		if new_user == "User not found":
-			new_user = User(email, password)
+			new_user = User(email,password)
 			new_user.signup()
 			return make_response(jsonify({"message":"User created!","user":new_user.__dict__}), 201)
 
@@ -46,6 +46,7 @@ class UserLogin(Resource):
 		password = args['password']
 
 		user = User.get_one(self, email)
+		
 
 		if user == "User not found":
 			return make_response(jsonify(

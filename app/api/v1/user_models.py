@@ -3,16 +3,14 @@ class User:
 
 	all_users = {}
 
-	def __init__(self, email, username, password):
+	def __init__(self, email, password):
 		self.email = email
-		self.username = username
 		self.password = password
 
 
 	def signup(self):
 		payload = dict(
 			email = self.email,
-			username = self.username,
 			password = self.password
 			)
 
@@ -26,6 +24,9 @@ class User:
 				return User.all_users[key]
 		message = "User not found"
 		return message
+	
+
+
 
 	def validate_email(self,email):
 		if re.match("\A(?P<name>[\w\-_]+)@(?P<domain>[\w\-_]+).(?P<toplevel>[\w]+)\Z",email,re.IGNORECASE):
