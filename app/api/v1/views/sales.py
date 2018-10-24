@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, make_response
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import jwt_required
-from .models import Sales
+from ..models import Sales
 
 
 sales = {}
@@ -16,11 +16,18 @@ class Sale_list(Resource):
 	@jwt_required
 	def get(self):
 		"""gets all sales"""
-		sales = Sales.get_all(self)
-		if not sales:
-			return {"message":"No sales made yet"},400
-		return make_response(jsonify(
-			{"message":"All sales made","sales":sales,"status":"okay"}),200)
+		try:
+			sales = Sales.get_all(self)
+			if not sales:
+				return {"message":"No sales made yet"},400
+
+
+			return make_response(jsonify(
+				{"message":"All sales made","sales":sales,"status":"okay"}),200)
+
+		except Exception as xception:
+	            print(exception)
+	            return {'message': 'Oops,you need authentication to access this page.'}, 500
 	@jwt_required
 	def post(self):
 		"""posts a sale"""

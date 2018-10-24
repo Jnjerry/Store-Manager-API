@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, make_response
 from flask_restful import Api, Resource, reqparse
-from .models import Products
+from ..models import Products
 from flask_jwt_extended import jwt_required
 
 

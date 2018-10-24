@@ -1,6 +1,6 @@
 import re
 class User:
-	'''Class represents operations related to products'''
+
 	all_users = {}
 
 	def __init__(self, email, username, password):

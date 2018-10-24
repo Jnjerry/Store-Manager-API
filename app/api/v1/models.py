@@ -1,3 +1,6 @@
+import random
+
+
 class Products:
 	products = {}
 
