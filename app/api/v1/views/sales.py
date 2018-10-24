@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, make_response
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import jwt_required
-from ..models import Sales
+from ..sales_models import Sales
 
 
 sales = {}
