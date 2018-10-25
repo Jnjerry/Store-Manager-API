@@ -25,12 +25,11 @@ class UserSignUp(Resource):
 
 		if email=="" or password =="":
 			return {'Message':'Password or email empty'},400
+		if len(password)<4:
+			return {"Message":"Password very short"},400
 
 		if not validate_email:
 			return {'Message': "Invalid email format"}, 400
-
-
-
 
 		if new_user == "User not found":
 			new_user = User(email,password)
@@ -49,10 +48,11 @@ class UserLogin(Resource):
 		password = args['password']
 
 		message=User.login(email,password)
-		token = create_access_token(identity=args['email'])
-		return make_response(jsonify({'message': message, 'token': token}), 201)
-
-
+		if message== "successfully loggedin":
+			token = create_access_token(identity=args['email'])
+			return make_response(jsonify({'message': "successfully logged in", 'token': token}), 201)
+		else:
+			return {'message':'Password does not match email'},400
 
 
 class UserLogout(Resource):

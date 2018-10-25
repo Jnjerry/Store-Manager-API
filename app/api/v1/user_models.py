@@ -29,8 +29,9 @@ class User:
 	def login(cls,email,password):
 		for user in cls.all_users:
 			if  user["email"]==email and user["password"]==password:
-				return "successfully loggedin"
-			return "invalid email or password"
+				message="successfully loggedin"
+				return message
+
 
 	def validate_email(self,email):
 		if re.match("\A(?P<name>[\w\-_]+)@(?P<domain>[\w\-_]+).(?P<toplevel>[\w]+)\Z",email,re.IGNORECASE):
