@@ -1,0 +1,11 @@
+
+!.codeclimate.yml
+!.coveragerc
+!.gitignore
+!.pylintrc
+!.travis*
+!.env
+*.log
+*.pyc
+
+__pycache__/
