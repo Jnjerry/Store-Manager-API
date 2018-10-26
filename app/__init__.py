@@ -9,7 +9,7 @@ from flask_jwt_extended import JWTManager
 
 
 def create_app(config_name):
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__)
     app.config["SECRET_KEY"] = 'joanN'
     app.config['JWT_SECRET_KEY'] = 'joan'
     jwt = JWTManager(app)

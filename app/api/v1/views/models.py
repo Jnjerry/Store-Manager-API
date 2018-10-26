@@ -39,7 +39,7 @@ class Sales:
 	saleid = 1
 
 	def __init__(self, name, quantity, description):
-		self.productid =len(Products.products) + 1
+		self.saleid =len(Sales.sales) + 1
 		self.name = name
 		self.quantity = quantity
 		self.description = description
@@ -47,7 +47,7 @@ class Sales:
 
 	def save(self):
 		payload = dict(
-			productid = self.productid,
+			saleid = self.saleid,
 			name = self.name,
 			description = self.description,
 		    quantity=self.quantity

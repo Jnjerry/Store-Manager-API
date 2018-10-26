@@ -20,11 +20,8 @@ class User:
 
 	def get_one(self, email):
 
-		for user in User.all_users:
-			if user == email:
-				return User.all_users[user]
+		for key in User.all_users:
+			if key == email:
+				return User.all_users[key]
 		message = "User not found"
 		return message
-
-	def get_all(self,email):
-		return User.all_users

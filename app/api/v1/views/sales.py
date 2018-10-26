@@ -16,13 +16,10 @@ class Sale_list(Resource):
 	@jwt_required
 	def get(self):
 		"""gets all sales"""
-		products = Sales.get_all(self)
+		sales = Sales.get_all(self)
+
 		return make_response(jsonify(
-			{
-			"message":"success",
-			"status":"ok",
-			"products":products}),
-		200)
+			{"sales":sales}),200)
 	@jwt_required
 	def post(self):
 		"""posts a sale"""
@@ -36,25 +33,14 @@ class Sale_list(Resource):
 		new_sale.save()
 
 		return make_response(jsonify(
-			{"message":"success",
-			"status":"created",
-			"product":new_sale.__dict__}
-			), 201)
+			{"sales":new_sale.__dict__}), 201)
 
 class Sale(Resource):
 	'''single product API'''
 	@jwt_required
 	def get(self, saleid):
-		one_product = Sales.get_one(self, saleid)
-
-		if one_product == "Product not found":
-			return make_response(jsonify(
-				{"status":"not found",
-				"message":"product unavailbale",
-				}), 404)
-
+		"""find a sale by saleid and assign it to one_sale"""
+		"""call the get_one method from sale models"""
+		one_sale= Sales.get_one(self, saleid)
 		return make_response(jsonify(
-			{"status":"ok",
-			"message":"success",
-			"product":one_product}
-			), 200)
+			{"status":"ok","sale":one_sale}), 200)
