@@ -17,47 +17,27 @@ class Product(Resource):
             if(productid==product["productid"]):
                 return product,200
 
-    def post(self,productid):
+
+
+
+
+
+
+    def post(self, productid):
         parser = reqparse.RequestParser()
         parser.add_argument("productid")
         parser.add_argument("product_name")
         parser.add_argument("product_price")
 
+        for product in products:
+        		if(productid == product["productid"]):
+        				return "product with ID number {} already exists".format(productid), 400
+
         args = parser.parse_args()
 
-
-
         product = {
-            "productid": productid,
             "product_name": args["product_name"],
             "product_price": args["product_price"],
-
-
-        }
-
-        products=[
-
-            {
-                "productid":1,
-                "product_name":"unga",
-                "product_price":300,
-
-            },
-
-        {
-            "productid":2,
-            "product_name":"chapo",
-            "product_price":30,
-
-        }
-
-
-
-        ]
-
-
-
+            }
         products.append(product)
-
-
         return product, 201

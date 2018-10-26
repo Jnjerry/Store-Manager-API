@@ -1,23 +1,22 @@
 #this file will initialize our application
 #brings together all components
 import os
-from flask import Flask
-from flask_restful import Api
-from .api.v1.views.products import Product,Product_list
-
-from ..instance.config import app_config
+from flask import Flask,Blueprint
 
 
 
 
-def create_app(config):
+
+
+def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object(app_config[config])
 
-    app.config["TESTING"] = True
+    from .api.v1 import version1 as v1
+    app.register_blueprint(v1)
+    #app.config.from_object('config')
+    # app.config.from_pyfile('config.py')
 
-    api = Api(app,prefix='/api/v1')
+    # app.config["TESTING"] = True
 
-    api.add_resource(Product_list,'/products')
-    api.add_resource(Product,'/products/<int:productid>')
+
     return app
