@@ -1,37 +1,46 @@
-from flask import Flask
-from flask_restful import Api,Resource,reqparse
-from .models import sales
+from flask import Flask, jsonify, make_response
+from flask_restful import Api, Resource, reqparse
+from flask_jwt_extended import jwt_required
+from .models import Sales
 
 
+sales = {}
 
+parser = reqparse.RequestParser()
+parser.add_argument('name', required=True, help="Name cannot be blank")
+parser.add_argument('quantity', type=int, required=True, help="only integers allowed")
+parser.add_argument('description', type=str, required=True, help="only strings allowed")
 
+#all sales list
 class Sale_list(Resource):
-    def get(self):
-        return sales,200
+	@jwt_required
+	def get(self):
+		"""gets all sales"""
+		sales = Sales.get_all(self)
 
+		return make_response(jsonify(
+			{"sales":sales}),200)
+	@jwt_required
+	def post(self):
+		"""posts a sale"""
 
-#to get a single product
+		args = parser.parse_args()
+		name = args['name']
+		quantity = args['quantity']
+		description = args['description']
+
+		new_sale = Sales(name, quantity, description)
+		new_sale.save()
+
+		return make_response(jsonify(
+			{"sales":new_sale.__dict__}), 201)
+
 class Sale(Resource):
-    def get(self,saleid):
-        for sale in sales:
-            if(saleid==sale["saleid"]):
-                return sale,200
-
-    def post(self, saleid):
-        parser = reqparse.RequestParser()
-        parser.add_argument("productid")
-        parser.add_argument("product_name")
-        parser.add_argument("product_price")
-
-        for sale in sales:
-        		if(saleid == sale["saleid"]):
-        				return "sale with ID number {} already exists".format(saleid), 400
-
-        args = parser.parse_args()
-
-        product = {
-            "product_name": args["product_name"],
-            "product_price": args["product_price"],
-            }
-        sales.append(sale)
-        return sale, 201
+	'''single product API'''
+	@jwt_required
+	def get(self, saleid):
+		"""find a sale by saleid and assign it to one_sale"""
+		"""call the get_one method from sale models"""
+		one_sale= Sales.get_one(self, saleid)
+		return make_response(jsonify(
+			{"status":"ok","sale":one_sale}), 200)

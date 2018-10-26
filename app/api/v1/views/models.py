@@ -1,52 +1,67 @@
+class Products:
+	products = {}
 
-products=[
+	productid = 1
 
-    {
-        "productid":1,
-        "product_name":"unga",
-        "product_price":300,
-
-    },
-
-{
-    "productid":2,
-    "product_name":"chapo",
-    "product_price":30,
-
-},
-{
-    "productid":3,
-    "product_name":"omo",
-    "product_price":40,
-
-}
+	def __init__(self, name, quantity, description):
+		self.productid =len(Products.products) + 1
+		self.name = name
+		self.quantity = quantity
+		self.description = description
 
 
 
-]
+	def save(self):
+		payload = dict(
+			productid = self.productid,
+			name = self.name,
+			quantity = self.quantity,
+			description = self.description
+			)
 
-sales=[
+		self.products.update({self.productid:payload})
 
-    {
-        "saleid":1,
-        "product_name":"unga",
-        "product_price":300,
+	def get_all(self):
+		return Products.products
 
-    },
+	def get_one(self, productid):
 
-{
-    "saleid":2,
-    "product_name":"chapo",
-    "product_price":30,
+		for key in Products.products:
+			if key == productid:
+				return Products.products[key]
 
-},
-{
-    "saleid":3,
-    "product_name":"omo",
-    "product_price":40,
-
-}
+		return "product not found"
 
 
+class Sales:
+	sales = {}
 
-]
+	saleid = 1
+
+	def __init__(self, name, quantity, description):
+		self.saleid =len(Sales.sales) + 1
+		self.name = name
+		self.quantity = quantity
+		self.description = description
+
+
+	def save(self):
+		payload = dict(
+			saleid = self.saleid,
+			name = self.name,
+			description = self.description,
+		    quantity=self.quantity
+			)
+
+		self.sales.update({self.saleid:payload})
+
+	def get_all(self):
+		return Sales.sales
+
+	def get_one(self, saleid):
+
+		for sale in Sales.sales:
+			if sale == saleid:
+				return Sales.sales[sale]
+		message = "sale not found"
+		return message
