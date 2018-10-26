@@ -52,7 +52,7 @@ class UserLogin(Resource):
 			token = create_access_token(identity=args['email'])
 			return make_response(jsonify({'message': "successfully logged in", 'token': token}), 201)
 		else:
-			return {'message':'Password does not match email'},400
+			return {'message':'Incorrect password or email'},400
 
 
 class UserLogout(Resource):
