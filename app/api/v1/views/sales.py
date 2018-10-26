@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, make_response
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required
-from .models import Sales
+from ..sales_models import Sales
 
 
 sales = {}
@@ -16,24 +16,27 @@ class Sale_list(Resource):
 	@jwt_required
 	def get(self):
 		"""gets all sales"""
-		sales = Sales.get_all(self)
 
+		sales = Sales.get_all(self)
+		if not sales:
+			return {"message":"No sales made yet"},400
 		return make_response(jsonify(
-			{"sales":sales}),200)
+			{"message":"All sales made","sales":sales,"status":"okay"}),200)
+
 	@jwt_required
 	def post(self):
 		"""posts a sale"""
 
 		args = parser.parse_args()
-		name = args['name']
+		name = args['name'].strip()
 		quantity = args['quantity']
-		description = args['description']
+		description = args['description'].strip()
 
 		new_sale = Sales(name, quantity, description)
 		new_sale.save()
 
 		return make_response(jsonify(
-			{"sales":new_sale.__dict__}), 201)
+			{"message":"sale successfully created","sales":new_sale.__dict__}), 201)
 
 class Sale(Resource):
 	'''single product API'''

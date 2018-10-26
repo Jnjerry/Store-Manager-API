@@ -3,7 +3,7 @@ from flask import Blueprint
 
 from .views.products import Product,Product_list
 from .views.sales import Sale,Sale_list
-from .views.auth_endpoints  import UserSignUp,UserLogin,UserLogout
+from .views.user_auth import UserSignUp,UserLogin,UserLogout
 
 
 #version using Blueprint
